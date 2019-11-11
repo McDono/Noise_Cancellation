@@ -20,3 +20,6 @@ x' * R * x
 f = x' * R * x - 2 * x'*h ; 
 contour(x1,x2,f)
 grid on
+
+% -----------------TEST ZONE----------------
+rand()
