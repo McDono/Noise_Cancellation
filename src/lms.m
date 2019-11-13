@@ -1,10 +1,10 @@
 clc;
 
-W = [0 2];
+W = [0 -2];
 b = 0;
 alpha = 0.12;
 
-NBR_EPOCH = 100;
+NBR_EPOCH = 70;
 ERROR_MAX = 0.0001;
 
 epoch = 1;
@@ -14,21 +14,24 @@ e = 1;
 %Plotting variables
 original = [v_signal(0)];
 output = [0];
-error = [0]
+error = [0];
+noise = [0];
+contaminated = [0];
 x = [0];
-W1 = [0];
-W2 = [2];
+W1 = W(1);
+W2 = W(2);
 
-% while (abs(e) > ERROR_MAX && epoch < NBR_EPOCH)
-while (epoch < NBR_EPOCH)
+while (abs(e) > ERROR_MAX && epoch < NBR_EPOCH)
+% while (epoch < NBR_EPOCH)
   
     s = 4*rand()-2
-    p = [v_signal(k-1); v_signal(k)]
+%     s = 0;
+    p = [v_signal(k); v_signal(k-1)]
     t = m_signal(k) + s
             
 
     a = W * p
-    e =  m_signal(k) - a
+    e = m_signal(k) - a
 
     W = W + 2 * alpha * e * p'
 
@@ -38,19 +41,22 @@ while (epoch < NBR_EPOCH)
     %Plotting variables
     original(epoch) = s;
     error(epoch) = e;
-    output(epoch) = t - e;
+    output(epoch) = t - a;
+    noise(epoch) = m_signal(k-1);
+    contaminated(epoch) = t;
     x(epoch) = k;
-    W1(k) = W(1);
-    W2(k) = W(2);
+    W1(epoch) = W(1);
+    W2(epoch) = W(2);
 
 end
 
 
-figure
+% figure
 % plot(x, original, x, error, x, output)
-plot(x, error)
-figure
-plot(x, original, x, output)
+% plot(x, error)
+% figure
+% plot(x, original, x, output)
+
 
 x1 = linspace(-2,2);
 x2 = x1';
@@ -62,6 +68,13 @@ plot(W1, W2)
 hold off
 grid on
 
+figure
+plot(x, error)
+figure
+plot(x, original, x, output)
+figure
+plot(x, original-output)
+
 
 
 function v = v_signal(k)
@@ -69,7 +82,7 @@ function v = v_signal(k)
 end
 
 function m = m_signal(k)
-    m = 0.12 * sin(2*pi*k / 3 + pi/2);
+    m = 0.12 * sin(2*pi*k/3 + pi/2);
 end
 
 
