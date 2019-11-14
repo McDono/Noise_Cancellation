@@ -25,14 +25,11 @@ while (abs(e) > ERROR_MAX && epoch < NBR_EPOCH)
 % while (epoch < NBR_EPOCH)
   
     s = 4*rand()-2
-%     s = 0;
     p = [v_signal(k); v_signal(k-1)]
     t = m_signal(k) + s
             
-
     a = W * p
     e = m_signal(k) - a
-
     W = W + 2 * alpha * e * p'
 
     k = k + 1
@@ -50,14 +47,6 @@ while (abs(e) > ERROR_MAX && epoch < NBR_EPOCH)
 
 end
 
-
-% figure
-% plot(x, original, x, error, x, output)
-% plot(x, error)
-% figure
-% plot(x, original, x, output)
-
-
 x1 = linspace(-2,2);
 x2 = x1';
 f = 0.72 * (x1.^2 + x2.^2 - x1 .* x2) + 0.1248 .* x2 + 0.0205;
@@ -74,9 +63,10 @@ figure
 plot(x, original, x, output)
 figure
 plot(x, original-output)
+figure
+plot(x, original, x, original+noise)
 
-
-
+s
 function v = v_signal(k)
     v = 1.2 * sin(2*pi*k / 3);
 end
