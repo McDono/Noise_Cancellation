@@ -74,6 +74,14 @@ plot(x, original+noise)
 figure('Name', 'Restored Signal', 'NumberTitle', 'off')
 plot(x, output)
 
+sound(original,Fs)
+pause(6)
+sound(noise,Fs)
+pause(6)
+sound(original+noise,Fs)
+pause(6)
+sound(output,Fs)
+
 
 function v = v_signal(k)
     v = 1.2 * sin(2*pi*k / 3);
